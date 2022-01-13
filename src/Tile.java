@@ -8,11 +8,15 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class Tile extends JPanel {
+    private final int row;
+    private final int col;
     private final Color color;
     private ChessCoin coin = null;
     private boolean isHighlighted;
 
     public Tile(ChessBoard board, int row, int col, int side, Color color) {
+        this.row = row;
+        this.col = col;
         this.color = color;
 
         setPreferredSize(new Dimension(side, side));
@@ -63,7 +67,7 @@ public class Tile extends JPanel {
         if (hasCoin()) remove(coin);
         this.coin = newCoin;
         add(newCoin);
-        repaint();
+        revalidate();
     }
 
     public void removeCoin() {
@@ -90,5 +94,13 @@ public class Tile extends JPanel {
 
     public boolean getIsHighlighted() {
         return isHighlighted;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
     }
 }

@@ -1,8 +1,10 @@
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
@@ -47,19 +49,43 @@ public class ChessBoard extends JPanel {
     }
 
     public void captureCoin(Tile targetTile) {
-        if (selectedTile == null) return;
-        selectedTile.getCoin().incrementNumberOfMovesMade();
-        targetTile.setCoin(selectedTile.getCoin());
-        selectedTile.removeCoin();
-        selectedTile = null;
+        moveCoin(targetTile);
     }
 
     public void moveCoin(Tile targetTile) {
         if (selectedTile == null) return;
+
+        ChessCoin selectedCoin = selectedTile.getCoin();
         selectedTile.getCoin().incrementNumberOfMovesMade();
         targetTile.setCoin(selectedTile.getCoin());
         selectedTile.removeCoin();
         selectedTile = null;
+
+        if (selectedCoin instanceof Pawn p && p.canPromote(targetTile.getRow())) {
+            this.setVisible(false);
+
+            JFrame promotionFrame = new JFrame("Choose A Coin");
+            promotionFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
+            promotionFrame.setSize(new Dimension(500, 120));
+
+            String[] options = { "Queen", "Rook", "Bishop", "Knight" };
+
+            for (String option : options) {
+                JButton button = new JButton();
+                button.add(ChessCoinFactory.create(option, p.alliance));
+                button.addActionListener(e -> {
+                    targetTile.setCoin(ChessCoinFactory.create(option, p.alliance));
+                    promotionFrame.dispose();
+                    ChessBoard.this.setVisible(true);
+                });
+
+                promotionFrame.add(button);
+            }
+
+            promotionFrame.setLocationRelativeTo(null);
+            promotionFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            promotionFrame.setVisible(true);
+        }
     }
 
     public void setSelectedTile(Tile selectedTile) {
@@ -93,6 +119,7 @@ public class ChessBoard extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(720, 720);
         frame.add(new ChessBoard(640));
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 

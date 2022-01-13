@@ -34,4 +34,9 @@ public class Pawn extends ChessCoin {
 
         return moves;
     }
+
+    public boolean canPromote(int row) {
+        if (alliance == Alliance.WHITE) return row == 0;
+        else return row == 7;
+    }
 }
