@@ -27,14 +27,17 @@ public class Tile extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                if (!board.isTurn()) return;
+
                 boolean wasHighlighted = isHighlighted;
                 clearAllTileHighlighting();
 
                 if (wasHighlighted) {
-                    if (hasCoin()) board.captureCoin(Tile.this);
-                    else board.moveCoin(Tile.this);
+                    board.moveCoin(Tile.this);
                 }
                 else if (hasCoin()) {
+                    if (coin.alliance != board.getPlayerAlliance()) return;
+
                     board.setSelectedTile(Tile.this);
 
                     List<Move> moves = coin.getLegalMoves(board, row, col);
@@ -68,6 +71,7 @@ public class Tile extends JPanel {
         this.coin = newCoin;
         add(newCoin);
         revalidate();
+        repaint();
     }
 
     public void removeCoin() {

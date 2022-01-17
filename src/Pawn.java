@@ -13,30 +13,27 @@ public class Pawn extends ChessCoin {
     public List<Move> getLegalMoves(ChessBoard board, int row, int col) {
         List<Move> moves = new ArrayList<>();
 
-        int factor = (alliance == Alliance.WHITE) ? -1 : 1;
+        if (!isValid(row - 1)) return moves;
 
-        if (!isValid(row + factor)) return moves;
-
-        if (board.isEmptyTile(row + factor, col)) {
-            moves.add(new Move(row + factor, col));
-            if (hasNotMoved() && board.isEmptyTile(row + 2 * factor, col)) {
-                moves.add(new Move(row + 2 * factor, col));
+        if (board.isEmptyTile(row - 1, col)) {
+            moves.add(new Move(row - 1, col));
+            if (hasNotMoved() && board.isEmptyTile(row - 2, col)) {
+                moves.add(new Move(row - 2, col));
             }
         }
 
-        if (isValid(col + 1) && canCapture(board.getCoinAt(row + factor, col + 1))) {
-            moves.add(new Move(row + factor, col + 1));
+        if (isValid(col - 1) && canCapture(board.getCoinAt(row - 1, col - 1))) {
+            moves.add(new Move(row - 1, col - 1));
         }
 
-        if (isValid(col - 1) && canCapture(board.getCoinAt(row + factor, col - 1))) {
-            moves.add(new Move(row + factor, col - 1));
+        if (isValid(col + 1) && canCapture(board.getCoinAt(row - 1, col + 1))) {
+            moves.add(new Move(row - 1, col + 1));
         }
 
         return moves;
     }
 
     public boolean canPromote(int row) {
-        if (alliance == Alliance.WHITE) return row == 0;
-        else return row == 7;
+        return row == 0;
     }
 }
