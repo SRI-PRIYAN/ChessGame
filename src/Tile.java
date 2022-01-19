@@ -96,7 +96,7 @@ public class Tile extends JPanel {
         setBackground(color);
     }
 
-    public boolean getIsHighlighted() {
+    public boolean isHighlighted() {
         return isHighlighted;
     }
 

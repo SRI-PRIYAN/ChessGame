@@ -41,8 +41,8 @@ public class ChessBoard extends JPanel {
     private void setupTiles(int tileSide) {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                Color tileColor = new Color(227, 193, 111);
-                if ((row + col) % 2 == 1) tileColor = new Color(184, 139, 74);
+                Color tileColor = new Color(227, 193, 111); // Light Color
+                if ((row + col) % 2 == 1) tileColor = new Color(184, 139, 74); // Dark Color
                 tiles[row][col] = new Tile(this, row, col, tileSide, tileColor);
                 add(tiles[row][col]);
             }
@@ -53,6 +53,7 @@ public class ChessBoard extends JPanel {
         String[] coins = {"Rook", "Knight", "Bishop", "Queen", "King", "Bishop", "Knight", "Rook"};
 
         for (int col = 0; col < cols; col++) {
+            // Coins will be in the reverse order for Black.
             int index = playerAlliance == Alliance.WHITE ? col : cols - col - 1;
 
             tiles[6][col].setCoin(ChessCoinFactory.create("Pawn", playerAlliance));
@@ -83,7 +84,7 @@ public class ChessBoard extends JPanel {
         selectedTile = null;
     }
 
-//    Also sends the move to the server with the coin type to which the pawn is promoted
+    // Also sends the move to the server with the coin type to which the pawn is promoted
     private void promotePawn(Pawn p, Tile selectedTile, Tile targetTile) {
         this.setVisible(false);
 
@@ -110,6 +111,23 @@ public class ChessBoard extends JPanel {
         promotionFrame.setVisible(true);
     }
 
+    private void sendMoveToServer(Tile selectedTile, Tile targetTile, String promotionCoinType) {
+        try {
+            if (promotionCoinType != null) {
+                dos.writeUTF("promote");
+                dos.writeUTF(promotionCoinType);
+            }
+            else dos.writeUTF("move");
+
+            dos.writeInt(selectedTile.getRow());
+            dos.writeInt(selectedTile.getCol());
+            dos.writeInt(targetTile.getRow());
+            dos.writeInt(targetTile.getCol());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void getAndPerformOpponentMove() {
         try {
             String command = dis.readUTF();
@@ -130,22 +148,6 @@ public class ChessBoard extends JPanel {
         }
     }
 
-    private void sendMoveToServer(Tile selectedTile, Tile targetTile, String promotionCoinType) {
-        try {
-            if (promotionCoinType != null) {
-                dos.writeUTF("promote");
-                dos.writeUTF(promotionCoinType);
-            }
-            else dos.writeUTF("move");
-
-            dos.writeInt(selectedTile.getRow());
-            dos.writeInt(selectedTile.getCol());
-            dos.writeInt(targetTile.getRow());
-            dos.writeInt(targetTile.getCol());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void setSelectedTile(Tile selectedTile) {
         this.selectedTile = selectedTile;
@@ -160,7 +162,7 @@ public class ChessBoard extends JPanel {
     }
 
     public boolean isHighlightedTile(int row, int col) {
-        return tiles[row][col].getIsHighlighted();
+        return tiles[row][col].isHighlighted();
     }
 
     public void highlightTile(int row, int col) {

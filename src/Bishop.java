@@ -13,10 +13,7 @@ public class Bishop extends ChessCoin {
     public List<Move> getLegalMoves(ChessBoard board, int row, int col) {
         List<Move> moves = new ArrayList<>();
 
-        addTopLeftMoves(board, row, col, moves);
-        addTopRightMoves(board, row, col, moves);
-        addBottomLeftMoves(board, row, col, moves);
-        addBottomRightMoves(board, row, col, moves);
+        addDiagonalMoves(board, row, col, moves);
 
         return moves;
     }

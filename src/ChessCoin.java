@@ -19,47 +19,25 @@ public abstract class ChessCoin extends JLabel {
         numberOfMovesMade++;
     }
 
-    public void addTopMoves(ChessBoard board, int row, int col, List<Move> moves) {
-        //noinspection StatementWithEmptyBody
-        while (canExpandMove(board, ++row, col, moves));
+    @SuppressWarnings("StatementWithEmptyBody")
+    public void addAxialMoves(ChessBoard board, int row, int col, List<Move> moves) {
+        for (int i = 1; canExpandMove(board, row + i, col, moves); i++); // Top
+        for (int i = 1; canExpandMove(board, row - i, col, moves); i++); // Bottom
+        for (int i = 1; canExpandMove(board, row, col - i, moves); i++); // Left
+        for (int i = 1; canExpandMove(board, row, col + i, moves); i++); // Right
     }
 
-    public void addBottomMoves(ChessBoard board, int row, int col, List<Move> moves) {
-        //noinspection StatementWithEmptyBody
-        while (canExpandMove(board, --row, col, moves));
-    }
-
-    public void addLeftMoves(ChessBoard board, int row, int col, List<Move> moves) {
-        //noinspection StatementWithEmptyBody
-        while (canExpandMove(board, row, --col, moves));
-    }
-
-    public void addRightMoves(ChessBoard board, int row, int col, List<Move> moves) {
-        //noinspection StatementWithEmptyBody
-        while (canExpandMove(board, row, ++col, moves));
-    }
-
-    public void addTopLeftMoves(ChessBoard board, int row, int col, List<Move> moves) {
-        //noinspection StatementWithEmptyBody
-        while (canExpandMove(board, ++row, --col, moves));
-    }
-
-    public void addTopRightMoves(ChessBoard board, int row, int col, List<Move> moves) {
-        //noinspection StatementWithEmptyBody
-        while (canExpandMove(board, ++row, ++col, moves));
-    }
-
-    public void addBottomLeftMoves(ChessBoard board, int row, int col, List<Move> moves) {
-        //noinspection StatementWithEmptyBody
-        while (canExpandMove(board, --row, --col, moves));
-    }
-
-    public void addBottomRightMoves(ChessBoard board, int row, int col, List<Move> moves) {
-        //noinspection StatementWithEmptyBody
-        while (canExpandMove(board, --row, ++col, moves));
+    @SuppressWarnings("StatementWithEmptyBody")
+    public void addDiagonalMoves(ChessBoard board, int row, int col, List<Move> moves) {
+        for (int i = 1; canExpandMove(board, row + i, col - i, moves); i++); // Top Left
+        for (int i = 1; canExpandMove(board, row + i, col + i, moves); i++); // Top Right
+        for (int i = 1; canExpandMove(board, row - i, col - i, moves); i++); // Bottom Left
+        for (int i = 1; canExpandMove(board, row - i, col + i, moves); i++); // Bottom Right
     }
 
     // Adds the move if it is valid. Returns true if there is a possibility to expand the move.
+    // That is, returns false if the (row, col) is invalid OR if the tile is not empty (in which case
+    // the move cannot be expanded).
     private boolean canExpandMove(ChessBoard board, int row, int col, List<Move> moves) {
         if (!isValid(row, col)) return false;
 

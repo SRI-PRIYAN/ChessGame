@@ -13,14 +13,8 @@ public class Queen extends ChessCoin {
     public List<Move> getLegalMoves(ChessBoard board, int row, int col) {
         List<Move> moves = new ArrayList<>();
 
-        addTopMoves(board, row, col, moves);
-        addBottomMoves(board, row, col, moves);
-        addLeftMoves(board, row, col, moves);
-        addRightMoves(board, row, col, moves);
-        addTopLeftMoves(board, row, col, moves);
-        addTopRightMoves(board, row, col, moves);
-        addBottomLeftMoves(board, row, col, moves);
-        addBottomRightMoves(board, row, col, moves);
+        addAxialMoves(board, row, col, moves);
+        addDiagonalMoves(board, row, col, moves);
 
         return moves;
     }
