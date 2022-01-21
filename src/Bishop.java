@@ -10,10 +10,10 @@ public class Bishop extends ChessCoin {
     }
 
     @Override
-    public List<Move> getLegalMoves(ChessBoard board, int row, int col) {
+    public List<Move> getPossibleMoves(ChessCoinContainer container, Position from) {
         List<Move> moves = new ArrayList<>();
 
-        addDiagonalMoves(board, row, col, moves);
+        addDiagonalMoves(container, from, moves);
 
         return moves;
     }

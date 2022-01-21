@@ -1,17 +1,14 @@
 public class Move {
-    private final int row;
-    private final int col;
+    final Position from;
+    final Position to;
 
-    public Move(int row, int col) {
-        this.row = row;
-        this.col = col;
+    public Move(Position from, Position to) {
+        this.from = from;
+        this.to = to;
     }
 
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
+    @Override
+    public String toString() {
+        return String.format("%s --> %s", from, to);
     }
 }

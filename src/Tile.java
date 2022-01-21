@@ -40,9 +40,9 @@ public class Tile extends JPanel {
 
                     board.setSelectedTile(Tile.this);
 
-                    List<Move> moves = coin.getLegalMoves(board, row, col);
+                    List<Move> moves = coin.getLegalMoves(board, new Position(row, col));
                     for (Move move : moves) {
-                        board.highlightTile(move.getRow(), move.getCol());
+                        board.highlightTile(move.to.getRow(), move.to.getCol(), Color.cyan);
                     }
                 }
                 else {

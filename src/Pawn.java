@@ -10,24 +10,28 @@ public class Pawn extends ChessCoin {
     }
 
     @Override
-    public List<Move> getLegalMoves(ChessBoard board, int row, int col) {
+    public List<Move> getPossibleMoves(ChessCoinContainer container, Position from) {
         List<Move> moves = new ArrayList<>();
 
-        if (!isValid(row - 1)) return moves;
+        int row = from.getRow(), col = from.getCol();
 
-        if (board.isEmptyTile(row - 1, col)) {
-            moves.add(new Move(row - 1, col));
-            if (hasNotMoved() && board.isEmptyTile(row - 2, col)) {
-                moves.add(new Move(row - 2, col));
+        int factor = (container.getCoinAt(row, col).alliance == container.getPlayerAlliance()) ? -1 : 1;
+
+        if (!isValid(row + factor)) return moves;
+
+        if (container.hasNoCoinAt(row + factor, col)) {
+            moves.add(new Move(from, new Position(row + factor, col)));
+            if (hasNotMoved() && isValid(row + 2 * factor) && container.hasNoCoinAt(row + 2 * factor, col)) {
+                moves.add(new Move(from, new Position(row + 2 * factor, col)));
             }
         }
 
-        if (isValid(col - 1) && canCapture(board.getCoinAt(row - 1, col - 1))) {
-            moves.add(new Move(row - 1, col - 1));
+        if (isValid(col - 1) && canCapture(container.getCoinAt(row + factor, col - 1))) {
+            moves.add(new Move(from, new Position(row + factor, col - 1)));
         }
 
-        if (isValid(col + 1) && canCapture(board.getCoinAt(row - 1, col + 1))) {
-            moves.add(new Move(row - 1, col + 1));
+        if (isValid(col + 1) && canCapture(container.getCoinAt(row + factor, col + 1))) {
+            moves.add(new Move(from, new Position(row + factor, col + 1)));
         }
 
         return moves;

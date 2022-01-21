@@ -12,6 +12,7 @@ public class Dashboard extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton playButton = new JButton("Play Random Player");
+        playButton.setFocusable(false);
 
         playButton.addActionListener(e -> {
             try {

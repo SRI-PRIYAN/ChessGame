@@ -9,13 +9,13 @@ public class Knight extends ChessCoin {
     }
 
     @Override
-    public List<Move> getLegalMoves(ChessBoard board, int row, int col) {
+    public List<Move> getPossibleMoves(ChessCoinContainer container, Position from) {
         int[][] possibilities = {
                 {2, 1}, {2, -1}, {-2, 1}, {-2, -1},
                 {1, 2}, {1, -2}, {-1, 2}, {-1, -2}
         };
 
-        return generateMoves(board, row, col, possibilities);
+        return generateMoves(container, from, possibilities);
     }
 
 }
