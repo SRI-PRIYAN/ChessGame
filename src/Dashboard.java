@@ -16,7 +16,7 @@ public class Dashboard extends JFrame {
 
         playButton.addActionListener(e -> {
             try {
-                Socket s = new Socket("localhost", 3065);
+                Socket s = new Socket("14.139.161.31", 3065);
                 new ChessGame(playerName, s);
             } catch (IOException exception) {
                 exception.printStackTrace();

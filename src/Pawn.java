@@ -1,12 +1,11 @@
-import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends ChessCoin {
     public Pawn(Alliance alliance) {
         super(alliance);
-        if (alliance == Alliance.WHITE) setIcon(new ImageIcon("resources/wPawn.png"));
-        else setIcon(new ImageIcon("resources/bPawn.png"));
+        if (alliance == Alliance.WHITE) setIcon(getCoinImageIcon("resources/wPawn.png"));
+        else setIcon(getCoinImageIcon("resources/bPawn.png"));
     }
 
     @Override

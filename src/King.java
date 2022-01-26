@@ -1,11 +1,10 @@
-import javax.swing.ImageIcon;
 import java.util.List;
 
 public class King extends ChessCoin {
     public King(Alliance alliance) {
         super(alliance);
-        if (alliance == Alliance.WHITE) setIcon(new ImageIcon("resources/wKing.png"));
-        else setIcon(new ImageIcon("resources/bKing.png"));
+        if (alliance == Alliance.WHITE) setIcon(getCoinImageIcon("resources/wKing.png"));
+        else setIcon(getCoinImageIcon("resources/bKing.png"));
     }
 
     @Override

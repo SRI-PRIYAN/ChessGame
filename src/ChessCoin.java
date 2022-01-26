@@ -1,4 +1,7 @@
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,18 @@ public abstract class ChessCoin extends JLabel {
 
     public void incrementNumberOfMovesMade() {
         numberOfMovesMade++;
+    }
+
+    protected ImageIcon getCoinImageIcon(String path) {
+        InputStream inputStream = getClass().getResourceAsStream(path);
+        if (inputStream != null) {
+            try {
+                return new ImageIcon(inputStream.readAllBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -1,12 +1,11 @@
-import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends ChessCoin {
     public Rook(Alliance alliance) {
         super(alliance);
-        if (alliance == Alliance.WHITE) setIcon(new ImageIcon("resources/wRook.png"));
-        else setIcon(new ImageIcon("resources/bRook.png"));
+        if (alliance == Alliance.WHITE) setIcon(getCoinImageIcon("resources/wRook.png"));
+        else setIcon(getCoinImageIcon("resources/bRook.png"));
     }
 
     @Override

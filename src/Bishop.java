@@ -1,12 +1,11 @@
-import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bishop extends ChessCoin {
     public Bishop(Alliance alliance) {
         super(alliance);
-        if (alliance == Alliance.WHITE) setIcon(new ImageIcon("resources/wBishop.png"));
-        else setIcon(new ImageIcon("resources/bBishop.png"));
+        if (alliance == Alliance.WHITE) setIcon(getCoinImageIcon("resources/wBishop.png"));
+        else setIcon(getCoinImageIcon("resources/bBishop.png"));
     }
 
     @Override
