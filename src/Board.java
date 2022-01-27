@@ -1,4 +1,4 @@
-public interface ChessCoinContainer {
+public interface Board {
     ChessCoin getCoinAt(int row, int col);
 
     default boolean hasNoCoinAt(int row, int col) {

@@ -7,13 +7,13 @@ public class CheckmateDetector {
     public static final int STALEMATE = 3;
 
     // Returns true if the King with the given alliance is in check
-    public static boolean isKingInCheck(ChessCoinContainer container, Alliance kingAlliance) {
+    public static boolean isKingInCheck(Board board, Alliance kingAlliance) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                ChessCoin coin = container.getCoinAt(row, col);
+                ChessCoin coin = board.getCoinAt(row, col);
                 if (coin == null || coin.alliance == kingAlliance) continue;
-                for (Move move : coin.getPossibleMoves(container, new Position(row, col))) {
-                    if (isKing(container.getCoinAt(move.to.getRow(), move.to.getCol()), kingAlliance)) {
+                for (Move move : coin.getPossibleMoves(board, new Position(row, col))) {
+                    if (isKing(board.getCoinAt(move.to.getRow(), move.to.getCol()), kingAlliance)) {
                         return true;
                     }
                 }
@@ -23,9 +23,9 @@ public class CheckmateDetector {
         return false;
     }
 
-    public static int analyze(ChessCoinContainer container, Alliance alliance) {
-        boolean isKingInCheck = isKingInCheck(container, alliance);
-        boolean hasNoLegalMoves = hasNoLegalMoves(container, alliance);
+    public static int analyze(Board board, Alliance alliance) {
+        boolean isKingInCheck = isKingInCheck(board, alliance);
+        boolean hasNoLegalMoves = hasNoLegalMoves(board, alliance);
 
         if (isKingInCheck) {
             if (hasNoLegalMoves) return CHECKMATE;
@@ -37,12 +37,12 @@ public class CheckmateDetector {
     }
 
     // Returns true if the given alliance has no legal moves to make
-    private static boolean hasNoLegalMoves(ChessCoinContainer container, Alliance alliance) {
+    private static boolean hasNoLegalMoves(Board board, Alliance alliance) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                ChessCoin coin = container.getCoinAt(row, col);
+                ChessCoin coin = board.getCoinAt(row, col);
                 if (coin == null || coin.alliance != alliance) continue;
-                List<Move> moves = coin.getLegalMoves(container, new Position(row, col));
+                List<Move> moves = coin.getLegalMoves(board, new Position(row, col));
                 if (!moves.isEmpty()) return false;
             }
         }

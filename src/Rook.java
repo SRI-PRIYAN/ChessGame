@@ -9,10 +9,10 @@ public class Rook extends ChessCoin {
     }
 
     @Override
-    public List<Move> getPossibleMoves(ChessCoinContainer container, Position from) {
+    public List<Move> getPossibleMoves(Board board, Position from) {
         List<Move> moves = new ArrayList<>();
 
-        addAxialMoves(container, from, moves);
+        addAxialMoves(board, from, moves);
 
         return moves;
     }

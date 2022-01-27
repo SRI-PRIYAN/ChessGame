@@ -1,28 +1,24 @@
 // ChessBoard after the given move
-public class AnticipatedChessBoard implements ChessCoinContainer {
-    private final ChessCoinContainer container;
-    private Move move;
+public class AnticipatedChessBoard implements Board {
+    private final Board board;
+    private final Move move;
 
-    public AnticipatedChessBoard(ChessCoinContainer container, Move move) {
-        this.container = container;
-        this.move = move;
-    }
-
-    public void setMove(Move move) {
+    public AnticipatedChessBoard(Board board, Move move) {
+        this.board = board;
         this.move = move;
     }
 
     @Override
     public ChessCoin getCoinAt(int row, int col) {
         if (isFrom(row, col)) return null;
-        if (isTo(row, col)) return container.getCoinAt(move.from.getRow(), move.from.getCol());
+        if (isTo(row, col)) return board.getCoinAt(move.from.getRow(), move.from.getCol());
 
-        return container.getCoinAt(row, col);
+        return board.getCoinAt(row, col);
     }
 
     @Override
     public Alliance getPlayerAlliance() {
-        return container.getPlayerAlliance();
+        return board.getPlayerAlliance();
     }
 
     public boolean isFrom(int row, int col) {

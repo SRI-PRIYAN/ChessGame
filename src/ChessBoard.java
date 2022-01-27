@@ -11,7 +11,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ChessBoard extends JPanel implements ChessCoinContainer {
+public class ChessBoard extends JPanel implements Board {
     private static final int rows = 8;
     private static final int cols = 8;
     private final Tile[][] tiles = new Tile[rows][cols];

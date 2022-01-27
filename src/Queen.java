@@ -9,11 +9,11 @@ public class Queen extends ChessCoin {
     }
 
     @Override
-    public List<Move> getPossibleMoves(ChessCoinContainer container, Position from) {
+    public List<Move> getPossibleMoves(Board board, Position from) {
         List<Move> moves = new ArrayList<>();
 
-        addAxialMoves(container, from, moves);
-        addDiagonalMoves(container, from, moves);
+        addAxialMoves(board, from, moves);
+        addDiagonalMoves(board, from, moves);
 
         return moves;
     }

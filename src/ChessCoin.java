@@ -35,35 +35,35 @@ public abstract class ChessCoin extends JLabel {
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
-    public void addAxialMoves(ChessCoinContainer container, Position from, List<Move> moves) {
+    public void addAxialMoves(Board board, Position from, List<Move> moves) {
         int row = from.getRow(), col = from.getCol();
-        for (int i = 1; canExpandMove(container, from, new Position(row + i, col), moves); i++); // Top
-        for (int i = 1; canExpandMove(container, from, new Position(row - i, col), moves); i++); // Bottom
-        for (int i = 1; canExpandMove(container, from, new Position(row, col - i), moves); i++); // Left
-        for (int i = 1; canExpandMove(container, from, new Position(row, col + i), moves); i++); // Right
+        for (int i = 1; canExpandMove(board, from, new Position(row + i, col), moves); i++); // Top
+        for (int i = 1; canExpandMove(board, from, new Position(row - i, col), moves); i++); // Bottom
+        for (int i = 1; canExpandMove(board, from, new Position(row, col - i), moves); i++); // Left
+        for (int i = 1; canExpandMove(board, from, new Position(row, col + i), moves); i++); // Right
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
-    public void addDiagonalMoves(ChessCoinContainer container, Position from, List<Move> moves) {
+    public void addDiagonalMoves(Board board, Position from, List<Move> moves) {
         int row = from.getRow(), col = from.getCol();
-        for (int i = 1; canExpandMove(container, from, new Position(row + i, col - i), moves); i++); // T-L
-        for (int i = 1; canExpandMove(container, from, new Position(row + i, col + i), moves); i++); // T-R
-        for (int i = 1; canExpandMove(container, from, new Position(row - i, col - i), moves); i++); // B-L
-        for (int i = 1; canExpandMove(container, from, new Position(row - i, col + i), moves); i++); // B-R
+        for (int i = 1; canExpandMove(board, from, new Position(row + i, col - i), moves); i++); // T-L
+        for (int i = 1; canExpandMove(board, from, new Position(row + i, col + i), moves); i++); // T-R
+        for (int i = 1; canExpandMove(board, from, new Position(row - i, col - i), moves); i++); // B-L
+        for (int i = 1; canExpandMove(board, from, new Position(row - i, col + i), moves); i++); // B-R
     }
 
     // Adds the move if it is valid. Returns true if there is a possibility to expand the move.
     // That is, returns false if the (row, col) is invalid OR if the tile is not empty (in which case
     // the move cannot be expanded).
-    private boolean canExpandMove(ChessCoinContainer container, Position from, Position to, List<Move> moves) {
+    private boolean canExpandMove(Board board, Position from, Position to, List<Move> moves) {
         int row = to.getRow(), col = to.getCol();
 
         if (!isValid(row, col)) return false;
 
-        if (container.hasNoCoinAt(row, col)) {
+        if (board.hasNoCoinAt(row, col)) {
             moves.add(new Move(from, to));
         } else {
-            if (canCapture(container.getCoinAt(row, col))) {
+            if (canCapture(board.getCoinAt(row, col))) {
                 moves.add(new Move(from, to));
             }
             return false;
@@ -72,7 +72,7 @@ public abstract class ChessCoin extends JLabel {
         return true;
     }
 
-    public List<Move> generateMoves(ChessCoinContainer container, Position from, int[][] possibilities) {
+    public List<Move> generateMoves(Board board, Position from, int[][] possibilities) {
         List<Move> moves = new ArrayList<>();
 
         int row = from.getRow(), col = from.getCol();
@@ -80,7 +80,7 @@ public abstract class ChessCoin extends JLabel {
             int dr = possibility[0], dc = possibility[1];
             int nRow = row + dr, nCol = col + dc;
             if (isValid(nRow, nCol)) {
-                if (container.hasNoCoinAt(nRow, nCol) || canCapture(container.getCoinAt(nRow, nCol))) {
+                if (board.hasNoCoinAt(nRow, nCol) || canCapture(board.getCoinAt(nRow, nCol))) {
                     moves.add(new Move(from, new Position(nRow, nCol)));
                 }
             }
@@ -102,14 +102,14 @@ public abstract class ChessCoin extends JLabel {
         return isValid(row) && isValid(col);
     }
 
-    public abstract List<Move> getPossibleMoves(ChessCoinContainer container, Position from);
+    public abstract List<Move> getPossibleMoves(Board board, Position from);
 
     // Filters the moves from getPossibleMoves that puts the King in check
-    public List<Move> getLegalMoves(ChessCoinContainer container, Position from) {
+    public List<Move> getLegalMoves(Board board, Position from) {
         List<Move> legalMoves = new ArrayList<>();
 
-        for (Move possibleMove : getPossibleMoves(container, from)) {
-            AnticipatedChessBoard anticipatedChessBoard = new AnticipatedChessBoard(container, possibleMove);
+        for (Move possibleMove : getPossibleMoves(board, from)) {
+            AnticipatedChessBoard anticipatedChessBoard = new AnticipatedChessBoard(board, possibleMove);
             if (!CheckmateDetector.isKingInCheck(anticipatedChessBoard, alliance)) {
                 legalMoves.add(possibleMove);
             }
